@@ -556,11 +556,11 @@ Follow the quick and easy steps below to finalize the closing process in a way y
 
                 <div class="field">
                   <label for="engraveFont">Font choice</label>
-                  <select id="engraveFont" name="engraveFont">
-                    <option value="serif">Classic Serif</option>
-                    <option value="sans">Clean Sans</option>
-                    <option value="script">Script</option>
-                  </select>
+					<select id="engraveFont" name="engraveFont">
+					  <option value="century">Century Gothic</option>
+					  <option value="poorrichard">Poor Richard</option>
+					  <option value="autography">Autography</option>
+					</select>
                 </div>
 
                 <div class="field">
@@ -657,13 +657,12 @@ Follow the quick and easy steps below to finalize the closing process in a way y
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function getFontStack(choice) {
-      // These are “safe” approximations for a similar experience.
-      if (choice === 'script') return 'Great Vibes, cursive';
-      if (choice === 'serif') return 'Playfair Display, Georgia, serif';
-      return 'Montserrat, Arial, sans-serif';
-    }
-
+	function getFontStack(choice) {
+	  if (choice === 'autography') return '"Great Vibes", cursive';
+	  if (choice === 'poorrichard') return '"Poor Richard", Georgia, serif';
+	  return '"Century Gothic", Arial, sans-serif';
+	}
+	
     function drawEngraving() {
       fitCanvasToStage();
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -679,19 +678,32 @@ Follow the quick and easy steps below to finalize the closing process in a way y
       const H = canvas.clientHeight;
 
       ctx.save();
-      ctx.translate(W * 0.5, H * 0.90);    // near bottom
-      ctx.rotate(-0.03);                  // tiny tilt to feel natural
+	  ctx.translate(W * 0.5, H * 0.62); // move up a bit (tune as needed)
+	  ctx.rotate(0);                    // remove tilt
 
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
       // subtle “burned” engraving look
-      ctx.font = `600 26px ${getFontStack(engraveFont.value)}`;
-      ctx.fillStyle = 'rgba(65, 40, 20, 0.55)';
+      const choice = engraveFont.value;
+const text = (engraveLine1.value || '').trim();
 
-      // soft stroke to make it read on busy photos
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+let size = 28;
+let weight = 600;
+
+if (choice === 'autography') { size = 34; weight = 400; }
+if (choice === 'poorrichard') { size = 30; weight = 500; }
+if (choice === 'century') { size = 28; weight = 600; }
+
+// auto-shrink if text is long
+if (text.length > 18) size -= 4;
+if (text.length > 26) size -= 4;
+
+ctx.font = `${weight} ${size}px ${getFontStack(choice)}`;
+
+		ctx.fillStyle = 'rgba(55, 34, 18, 0.60)';
+ctx.lineWidth = 2;
+ctx.strokeStyle = 'rgba(255,255,255,0.25)';
       ctx.strokeText(text, 0, 0);
       ctx.fillText(text, 0, 0);
 
@@ -753,6 +765,7 @@ Follow the quick and easy steps below to finalize the closing process in a way y
 
 </body>
 </html>
+
 
 
 
