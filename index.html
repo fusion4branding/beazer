@@ -818,72 +818,65 @@ function getFontStack(choice) {
   return '"Century Gothic", Arial, sans-serif';
 }
 	
-    function drawEngraving() {
-		document.fonts.ready.then(() => {
-  drawEngraving();
-});
-      fitCanvasToStage();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+function drawEngraving() {
+  fitCanvasToStage();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (!engraveToggle.checked) return;
+  if (!engraveToggle.checked) return;
 
-const l1 = (engraveLine1.value || '').trim();
-const l2 = (engraveLine2.value || '').trim();
-const lines = [l1, l2].filter(Boolean);
-if (!lines.length) return;
+  const l1 = (engraveLine1.value || '').trim();
+  const l2 = (engraveLine2.value || '').trim();
+  const lines = [l1, l2].filter(Boolean);
+  if (!lines.length) return;
 
-      // Placement: bottom edge “engraving” style
-      // (You can tweak these numbers per your product photo)
-const W = canvas.width;
-const H = canvas.height;
+  // Use CSS pixel sizing (because ctx transform is set to DPR)
+  const rect = canvas.getBoundingClientRect();
+  const W = rect.width;
+  const H = rect.height;
 
-      ctx.save();
-	  ctx.translate(W * 0.5, H * 0.58);
-	  ctx.rotate(0);                    // remove tilt
+  ctx.save();
+  ctx.translate(W * 0.5, H * 0.58);
+  ctx.rotate(0);
 
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
 
-      // subtle “burned” engraving look
-      // --- Supplier-style engraving fit ---
-const choice = engraveFont.value;
+  const choice = engraveFont.value;
 
-let size = 28;
+  let size = 28;
+  if (choice === 'autography') size = 44;
+  if (choice === 'poorrichard') size = 34;
+  if (choice === 'century') size = 30;
 
-if (choice === 'autography') { size = 44; }
-if (choice === 'poorrichard') { size = 34; }
-if (choice === 'century') { size = 30; }
+  const maxWidth = W * 0.78;
 
-// engraving zone width (80% like supplier preview)
-const maxWidth = W * 0.78;
+  function setFont(px){
+    ctx.font = `${px}px ${getFontStack(choice)}`;
+  }
 
-// Fit text by measuring and shrinking
-function setFont(px){
-  ctx.font = `${px}px ${getFontStack(choice)}`;
-}
-
-setFont(size);
-
-const longest = lines.reduce((a,b)=> (a.length>b.length ? a : b), '') || ' ';
-while (ctx.measureText(longest).width > maxWidth && size > 14) {
-  size -= 1;
   setFont(size);
+
+  const longest = lines.reduce((a,b)=> (a.length>b.length ? a : b), '') || ' ';
+  while (ctx.measureText(longest).width > maxWidth && size > 14) {
+    size -= 1;
+    setFont(size);
+  }
+
+  ctx.fillStyle = 'rgba(55, 34, 18, 0.60)';
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+
+  const lineHeight = Math.round(size * 1.05);
+  const totalH = (lines.length - 1) * lineHeight;
+
+  lines.forEach((t, i) => {
+    const y = (i * lineHeight) - (totalH / 2);
+    ctx.strokeText(t, 0, y);
+    ctx.fillText(t, 0, y);
+  });
+
+  ctx.restore();
 }
-
-ctx.fillStyle = 'rgba(55, 34, 18, 0.60)';
-ctx.lineWidth = 2;
-ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-
-const lineHeight = Math.round(size * 1.05);
-const totalH = (lines.length - 1) * lineHeight;
-
-lines.forEach((t, i) => {
-  const y = (i * lineHeight) - (totalH / 2);
-  ctx.strokeText(t, 0, y);
-  ctx.fillText(t, 0, y);
-});
-      ctx.restore();
-    }
 
     engraveToggle.addEventListener('change', () => {
       engraveWrap.classList.toggle('on', engraveToggle.checked);
@@ -899,6 +892,9 @@ lines.forEach((t, i) => {
     previewImg.addEventListener('load', drawEngraving);
     if (previewImg.complete) drawEngraving();
 
+	  if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => drawEngraving());
+}
     // Submit handler (replace with your Apps Script / webhook)
     const form = document.getElementById('orderForm');
     const msg = document.getElementById('formMsg');
@@ -954,10 +950,12 @@ lines.forEach((t, i) => {
   radios.forEach(r => r.addEventListener('change', sync));
   sync();
 })();
+	  document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
 </body>
 </html>
+
 
 
 
