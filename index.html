@@ -446,6 +446,23 @@
   font-style: normal;
   font-display: swap;
 }
+
+	  @font-face{
+  font-family:"Poor Richard";
+  src:url("assets/fonts/PoorRichard.woff2") format("woff2");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
+@font-face{
+  font-family:"Century Gothic";
+  src:url("assets/fonts/CenturyGothic.woff2") format("woff2");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+	  
   </style>
 </head>
 
@@ -516,7 +533,7 @@ Follow the quick and easy steps below to finalize the closing process in a way y
         <div class="cardBody">
           <h4>Perfectly Packaged</h4>
           <p>
-            Perfectly packaged, your item will arrive in a customized mailer with a pre-printed Beazer romance card.
+            Perfectly packaged, your item will arrive in an elegant black box with a pre-printed Beazer romance card.
           </p>
         </div>
       </article>
@@ -604,6 +621,11 @@ Follow the quick and easy steps below to finalize the closing process in a way y
     Select the resin accent color for the Date Night cheese board.
   </p>
 
+	<p style="margin:10px 0 0; color:var(--muted); font-size:12.5px; line-height:1.55;">
+  <strong>Note:</strong> Stock cannot be guaranteed. If your selected color needs to be replaced,
+  a representative will reach out with available alternatives.
+</p>
+	
   <div class="color-grid" id="colorGrid">
   <label class="color-card">
     <input type="radio" name="boardColor" value="Gold Quartz" required>
@@ -683,7 +705,7 @@ Follow the quick and easy steps below to finalize the closing process in a way y
           <!-- Engraving toggle -->
           <div class="toggleRow">
             <div>
-              <strong>Add Engraving</strong> <span class="price">(+ $15)</span>
+              <strong>Add Engraving</strong>
               <div style="color:var(--muted); font-size:12px; margin-top:4px;">
                 Optional personalization — adds engraving details to the submission.
               </div>
@@ -919,7 +941,6 @@ function drawEngraving() {
 
       // Add engraving flag + price
       data.addEngraving = engraveToggle.checked ? 'Yes' : 'No';
-      data.engravingFee = engraveToggle.checked ? '15' : '0';
 
       // TODO: send "data" to your endpoint
       // fetch(YOUR_WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)})
@@ -944,9 +965,6 @@ fetch(WEB_APP_URL, {
   msg.textContent = "Error submitting form: " + err.message;
   msg.style.color = "#b11b2a";
 });
-		
-      msg.textContent = 'Submitted! Your order details have been captured. (Connect this to your submission endpoint next.)';
-      msg.style.color = '#136f3a';
 
       // Optional: reset
       // form.reset();
@@ -976,6 +994,7 @@ fetch(WEB_APP_URL, {
 
 </body>
 </html>
+
 
 
 
