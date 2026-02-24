@@ -438,6 +438,14 @@
   border-color: rgba(177,18,38,.45);
   box-shadow: 0 10px 20px rgba(177,18,38,.10);
 }
+
+	  @font-face{
+  font-family: "Autography";
+  src: url("assets/fonts/Autography.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
   </style>
 </head>
 
@@ -804,13 +812,16 @@ const engraveFont = document.getElementById('engraveFont');
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-	function getFontStack(choice) {
-	  if (choice === 'autography') return '"Great Vibes", cursive';
-	  if (choice === 'poorrichard') return '"Poor Richard", Georgia, serif';
-	  return '"Century Gothic", Arial, sans-serif';
-	}
+function getFontStack(choice) {
+  if (choice === 'autography') return '"Autography", cursive';
+  if (choice === 'poorrichard') return '"Poor Richard", Georgia, serif';
+  return '"Century Gothic", Arial, sans-serif';
+}
 	
     function drawEngraving() {
+		document.fonts.ready.then(() => {
+  drawEngraving();
+});
       fitCanvasToStage();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -838,18 +849,17 @@ const H = canvas.height;
 const choice = engraveFont.value;
 
 let size = 28;
-let weight = 600;
 
-if (choice === 'autography') { size = 38; weight = 400; }
-if (choice === 'poorrichard') { size = 32; weight = 500; }
-if (choice === 'century') { size = 30; weight = 600; }
+if (choice === 'autography') { size = 44; }
+if (choice === 'poorrichard') { size = 34; }
+if (choice === 'century') { size = 30; }
 
 // engraving zone width (80% like supplier preview)
 const maxWidth = W * 0.78;
 
 // Fit text by measuring and shrinking
 function setFont(px){
-  ctx.font = `${weight} ${px}px ${getFontStack(choice)}`;
+  ctx.font = `${px}px ${getFontStack(choice)}`;
 }
 
 setFont(size);
@@ -948,6 +958,7 @@ lines.forEach((t, i) => {
 
 </body>
 </html>
+
 
 
 
