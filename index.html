@@ -924,6 +924,27 @@ function drawEngraving() {
       // TODO: send "data" to your endpoint
       // fetch(YOUR_WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)})
 
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxrzSri6J6M1a5iATn-gCYKQxSEQG47Rrz4iVpgeDJMpBpTNDzOIMvobhLd2PXk7t2I/exec";
+
+fetch(WEB_APP_URL, {
+  method: "POST",
+  headers: { "Content-Type": "text/plain;charset=utf-8" },
+  body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(resp => {
+  if(!resp.ok) throw new Error(resp.error || "Submission failed");
+  msg.textContent = "Submitted! Your order has been sent successfully.";
+  msg.style.color = "#136f3a";
+  form.reset();
+  engraveWrap.classList.remove("on");
+  drawEngraving();
+})
+.catch(err => {
+  msg.textContent = "Error submitting form: " + err.message;
+  msg.style.color = "#b11b2a";
+});
+		
       msg.textContent = 'Submitted! Your order details have been captured. (Connect this to your submission endpoint next.)';
       msg.style.color = '#136f3a';
 
@@ -955,6 +976,7 @@ function drawEngraving() {
 
 </body>
 </html>
+
 
 
 
