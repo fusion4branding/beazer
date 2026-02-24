@@ -839,19 +839,41 @@ function getFontStack(choice) {
   if (choice === 'poorrichard') return '"Poor Richard", Georgia, serif';
   return '"Century Gothic", Arial, sans-serif';
 }
-	
-function drawEngraving() {
+
+
+	  async function ensureSelectedFontLoaded() {
+  if (!document.fonts || !document.fonts.load) return;
+
+  const choice = engraveFont.value;
+
+  // Pick a test font-size; this just triggers loading for the family
+  let test = '24px "Century Gothic"';
+  if (choice === 'poorrichard') test = '24px "Poor Richard"';
+  if (choice === 'autography')  test = '24px "Autography"';
+
+  // Wait for the selected family to be ready
+  await document.fonts.load(test, "AaBbCc123");
+  await document.fonts.ready;
+}
+	  
+let drawing = false;
+
+async function drawEngraving() {
+  if (drawing) return;          // prevent overlapping async draws
+  drawing = true;
+
+  await ensureSelectedFontLoaded();
+
   fitCanvasToStage();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (!engraveToggle.checked) return;
+  if (!engraveToggle.checked) { drawing = false; return; }
 
   const l1 = (engraveLine1.value || '').trim();
   const l2 = (engraveLine2.value || '').trim();
   const lines = [l1, l2].filter(Boolean);
-  if (!lines.length) return;
+  if (!lines.length) { drawing = false; return; }
 
-  // Use CSS pixel sizing (because ctx transform is set to DPR)
   const rect = canvas.getBoundingClientRect();
   const W = rect.width;
   const H = rect.height;
@@ -898,6 +920,7 @@ function drawEngraving() {
   });
 
   ctx.restore();
+  drawing = false;
 }
 
     engraveToggle.addEventListener('change', () => {
@@ -994,6 +1017,7 @@ fetch(WEB_APP_URL, {
 
 </body>
 </html>
+
 
 
 
