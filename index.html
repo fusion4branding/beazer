@@ -787,8 +787,9 @@ Follow the quick and easy steps below to finalize the closing process in a way y
     const engraveToggle = document.getElementById('engraveToggle');
     const engraveWrap = document.getElementById('engraveWrap');
 
-    const engraveLine1 = document.getElementById('engraveLine1');
-    const engraveFont = document.getElementById('engraveFont');
+const engraveLine1 = document.getElementById('engraveLine1');
+const engraveLine2 = document.getElementById('engraveLine2');
+const engraveFont = document.getElementById('engraveFont');
 
     const canvas = document.getElementById('engraveCanvas');
     const ctx = canvas.getContext('2d');
@@ -815,13 +816,15 @@ Follow the quick and easy steps below to finalize the closing process in a way y
 
       if (!engraveToggle.checked) return;
 
-      const text = (engraveLine1.value || '').trim();
-      if (!text) return;
+const l1 = (engraveLine1.value || '').trim();
+const l2 = (engraveLine2.value || '').trim();
+const lines = [l1, l2].filter(Boolean);
+if (!lines.length) return;
 
       // Placement: bottom edge “engraving” style
       // (You can tweak these numbers per your product photo)
-      const W = canvas.clientWidth;
-      const H = canvas.clientHeight;
+const W = canvas.width;
+const H = canvas.height;
 
       ctx.save();
 	  ctx.translate(W * 0.5, H * 0.58);
@@ -850,7 +853,9 @@ function setFont(px){
 }
 
 setFont(size);
-while (ctx.measureText(text).width > maxWidth && size > 14) {
+
+const longest = lines.reduce((a,b)=> (a.length>b.length ? a : b), '') || ' ';
+while (ctx.measureText(longest).width > maxWidth && size > 14) {
   size -= 1;
   setFont(size);
 }
@@ -870,6 +875,7 @@ ctx.fillText(text, 0, 0);
     });
 
     engraveLine1.addEventListener('input', drawEngraving);
+	engraveLine2.addEventListener('input', drawEngraving);
     engraveFont.addEventListener('change', drawEngraving);
     window.addEventListener('resize', drawEngraving);
 
@@ -937,6 +943,7 @@ ctx.fillText(text, 0, 0);
 
 </body>
 </html>
+
 
 
 
