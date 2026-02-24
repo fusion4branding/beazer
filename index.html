@@ -694,15 +694,15 @@ Follow the quick and easy steps below to finalize the closing process in a way y
 
               <div class="formGrid" style="grid-template-columns:1fr;">
                 <div class="field">
-<label class="field">
-  <span>Engraving text (Line 1)</span>
+<div class="field">
+  <label for="engraveLine1">Engraving text (Line 1)</label>
   <input id="engraveLine1" name="engraveLine1" type="text" maxlength="24" placeholder="Example: The Smiths">
-</label>
+</div>
 
-<label class="field">
-  <span>Engraving text (Line 2)</span>
+<div class="field">
+  <label for="engraveLine2">Engraving text (Line 2)</label>
   <input id="engraveLine2" name="engraveLine2" type="text" maxlength="24" placeholder="Example: Est. 2026 (optional)">
-</label>
+</div>
                 </div>
 
                 <div class="field">
@@ -864,8 +864,14 @@ ctx.fillStyle = 'rgba(55, 34, 18, 0.60)';
 ctx.lineWidth = 2;
 ctx.strokeStyle = 'rgba(255,255,255,0.25)';
 
-ctx.strokeText(text, 0, 0);
-ctx.fillText(text, 0, 0);
+const lineHeight = Math.round(size * 1.05);
+const totalH = (lines.length - 1) * lineHeight;
+
+lines.forEach((t, i) => {
+  const y = (i * lineHeight) - (totalH / 2);
+  ctx.strokeText(t, 0, y);
+  ctx.fillText(t, 0, y);
+});
       ctx.restore();
     }
 
@@ -887,7 +893,6 @@ ctx.fillText(text, 0, 0);
     const form = document.getElementById('orderForm');
     const msg = document.getElementById('formMsg');
 
-	  boardColor: (new FormData(document.getElementById('orderForm')).get('boardColor') || '')
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -943,6 +948,7 @@ ctx.fillText(text, 0, 0);
 
 </body>
 </html>
+
 
 
 
