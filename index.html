@@ -389,54 +389,52 @@
 	  /* Color picker */
 .color-grid{
   display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
   margin-top: 10px;
 }
-@media (max-width: 720px){
-  .color-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 860px){
+  .color-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 520px){
+  .color-grid{ grid-template-columns: 1fr; }
 }
 
-.color-option{
-  position: relative;
+.color-card{
   border: 1px solid rgba(11,18,32,.14);
-  border-radius: 14px;
-  background: #fff;
-  padding: 10px 12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+  border-radius: 16px;
+  background:#fff;
+  overflow:hidden;
   cursor:pointer;
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  display:block;
 }
-.color-option:hover{
+.color-card:hover{
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);
   border-color: rgba(177,18,38,.25);
 }
-
-.color-option input{
+.color-card input{
   position:absolute;
   opacity:0;
   pointer-events:none;
 }
-
-.swatch{
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(11,18,32,.18);
-  background: linear-gradient(135deg, rgba(177,18,38,.08), rgba(122,193,67,.10));
+.color-card img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  display:block;
 }
-
+.color-meta{
+  padding:10px 12px 12px;
+}
 .color-name{
-  font-weight: 800;
-  font-size: 13.5px;
+  font-weight:800;
+  font-size:13.5px;
   color: var(--ink);
-  line-height: 1.2;
 }
 
-.color-option.is-selected{
+.color-card.is-selected{
   border-color: rgba(177,18,38,.45);
   box-shadow: 0 10px 20px rgba(177,18,38,.10);
 }
@@ -599,59 +597,77 @@ Follow the quick and easy steps below to finalize the closing process in a way y
   </p>
 
   <div class="color-grid" id="colorGrid">
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Gold Quartz" required>
-      <span class="swatch"></span>
-      <span class="color-name">Gold Quartz</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Gold Quartz" required>
+    <img src="assets/gold-quartz.jpg" alt="Gold Quartz">
+    <div class="color-meta">
+      <div class="color-name">Gold Quartz</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Navy" required>
-      <span class="swatch"></span>
-      <span class="color-name">Navy</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Navy" required>
+    <img src="assets/navy.jpg" alt="Navy">
+    <div class="color-meta">
+      <div class="color-name">Navy</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Ocean Vibes" required>
-      <span class="swatch"></span>
-      <span class="color-name">Ocean Vibes</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Ocean Vibes" required>
+    <img src="assets/ocean-vibes.jpg" alt="Ocean Vibes">
+    <div class="color-meta">
+      <div class="color-name">Ocean Vibes</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Onyx" required>
-      <span class="swatch"></span>
-      <span class="color-name">Onyx</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Onyx" required>
+    <img src="assets/onyx.jpg" alt="Onyx">
+    <div class="color-meta">
+      <div class="color-name">Onyx</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Black Ember" required>
-      <span class="swatch"></span>
-      <span class="color-name">Black Ember</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Black Ember" required>
+    <img src="assets/black-ember.jpg" alt="Black Ember">
+    <div class="color-meta">
+      <div class="color-name">Black Ember</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Marble" required>
-      <span class="swatch"></span>
-      <span class="color-name">Marble</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Marble" required>
+    <img src="assets/marble.jpg" alt="Marble">
+    <div class="color-meta">
+      <div class="color-name">Marble</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Jade" required>
-      <span class="swatch"></span>
-      <span class="color-name">Jade</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Jade" required>
+    <img src="assets/jade.jpg" alt="Jade">
+    <div class="color-meta">
+      <div class="color-name">Jade</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Northern Lights" required>
-      <span class="swatch"></span>
-      <span class="color-name">Northern Lights</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Northern Lights" required>
+    <img src="assets/northern-lights.jpg" alt="Northern Lights">
+    <div class="color-meta">
+      <div class="color-name">Northern Lights</div>
+    </div>
+  </label>
 
-    <label class="color-option">
-      <input type="radio" name="boardColor" value="Caribbean" required>
-      <span class="swatch"></span>
-      <span class="color-name">Caribbean</span>
-    </label>
+  <label class="color-card">
+    <input type="radio" name="boardColor" value="Caribbean" required>
+    <img src="assets/caribbean.jpg" alt="Caribbean">
+    <div class="color-meta">
+      <div class="color-name">Caribbean</div>
+    </div>
+  </label>
   </div>
 </div>
           <div class="divider"></div>
@@ -678,8 +694,15 @@ Follow the quick and easy steps below to finalize the closing process in a way y
 
               <div class="formGrid" style="grid-template-columns:1fr;">
                 <div class="field">
-                  <label for="engraveLine1">Engraving text</label>
-                  <input id="engraveLine1" name="engraveLine1" type="text" placeholder="e.g., The Smiths • 2026" maxlength="28" />
+<label class="field">
+  <span>Engraving text (Line 1)</span>
+  <input id="engraveLine1" name="engraveLine1" type="text" maxlength="24" placeholder="Example: The Smiths">
+</label>
+
+<label class="field">
+  <span>Engraving text (Line 2)</span>
+  <input id="engraveLine2" name="engraveLine2" type="text" maxlength="24" placeholder="Example: Est. 2026 (optional)">
+</label>
                 </div>
 
                 <div class="field">
@@ -899,17 +922,14 @@ ctx.fillText(text, 0, 0);
   const grid = document.getElementById('colorGrid');
   if(!grid) return;
 
-  const options = Array.from(grid.querySelectorAll('.color-option'));
-  const radios  = Array.from(grid.querySelectorAll('input[type="radio"][name="boardColor"]'));
+  const cards  = Array.from(grid.querySelectorAll('.color-card'));
+  const radios = Array.from(grid.querySelectorAll('input[type="radio"][name="boardColor"]'));
 
   function sync(){
-    options.forEach(label => label.classList.remove('is-selected'));
+    cards.forEach(c => c.classList.remove('is-selected'));
     const checked = radios.find(r => r.checked);
-    if(checked){
-      checked.closest('.color-option')?.classList.add('is-selected');
-    }
+    if(checked) checked.closest('.color-card')?.classList.add('is-selected');
   }
-
   radios.forEach(r => r.addEventListener('change', sync));
   sync();
 })();
@@ -917,6 +937,7 @@ ctx.fillText(text, 0, 0);
 
 </body>
 </html>
+
 
 
 
